@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package proto;
+
+import "google/api/annotations.proto";
+
+// 源.proto文件应包含go_package选项，该选项指定文件的完整Go导入路径。
+// 如果没有go_package选项，则编译器将尝试猜测一个。将来的编译器版本将要求go_package选项。
+// 生成的代码的Go包名称将是go_package选项的最后一个路径组件。
+option go_package = "../proto";
+
+message StringMessage {
+  string value = 1;
+}
+
+//定义RPC服务
+service HelloService {
+  rpc Hello (StringMessage) returns (StringMessage) {
+    option (google.api.http) = {
+      post: "/v1/hello"
+      body: "*"
+    };
+  }
+}
